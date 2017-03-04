@@ -6,6 +6,7 @@ from scrapy.utils.request import request_fingerprint
 from ResearchGateSpider.items import ResearchGateItem
 from ResearchGateSpider.datafilter import DataFilter
 from ResearchGateSpider.func import parse_text_by_multi_content
+from scrapy.exceptions import CloseSpider
 #from scrapy_splash import SplashRequest
 #from scrapy_splash import SplashMiddleware
 import time
