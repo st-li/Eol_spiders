@@ -28,6 +28,9 @@ class MongoDBPipeline(object):
         db = self.client[settings.mongodb_db]
         db.authenticate(name=settings.mongodb_user, password=settings.mongodb_pwd, mechanism=settings.mongodb_mechanism)
         self.collection = db[settings.mongodb_collection]
+    #def open_spider(self, spider):
+    #    print spider.settings["HTTPCACHE_REDIS_HOST"]
+
 
     def process_item(self, item, spider):
         valid = True

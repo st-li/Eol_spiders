@@ -6,13 +6,14 @@ from scrapy.utils.request import request_fingerprint
 from ResearchGateSpider.items import ResearchGateItem
 from ResearchGateSpider.datafilter import DataFilter
 from ResearchGateSpider.func import parse_text_by_multi_content
-from scrapy_splash import SplashRequest
-from scrapy_splash import SplashMiddleware
+#from scrapy_splash import SplashRequest
+#from scrapy_splash import SplashMiddleware
 import time
 
 
 class RGSpider1(CrawlSpider):
     name = 'RGSpider1'
+    #name = "ResearchGateSpider"
     domain = 'https://www.researchgate.net'
     start_urls = ["https://www.researchgate.net/login"]
     # pub_item = []
@@ -33,7 +34,7 @@ class RGSpider1(CrawlSpider):
         for alphabet in alphabet_list:
             url = "https://www.researchgate.net/directory/profiles/"+alphabet
             yield Request(url, headers=headers, callback=self.parse_profile_directory, dont_filter=True)
-            break
+            #break
 
         # url = "https://www.researchgate.net/directory/profiles/" + alphabet_list[0]
         # print url
@@ -49,7 +50,7 @@ class RGSpider1(CrawlSpider):
                 extract():
             url = self.domain + "/" + url
             yield Request(url, headers=headers, callback=self.parse_profile_directory2, dont_filter=True)
-            break
+            #break
 
         # urls = response.xpath('//ul[contains(@class, "list-directory")]/descendant::a/@href').extract()
         # url0 = self.domain + "/" + urls[0]
@@ -66,7 +67,7 @@ class RGSpider1(CrawlSpider):
                 extract():
             url = self.domain + "/" + url
             yield Request(url, headers=headers, callback=self.parse_profile_directory3, dont_filter=True)
-            break
+            #break
         # urls = response.xpath('//ul[contains(@class, "list-directory")]/descendant::a/@href').extract()
         # url0 = self.domain + "/" + urls[0]
         # print url0
@@ -77,16 +78,16 @@ class RGSpider1(CrawlSpider):
             raise CloseSpider(reason='被封了，准备切换ip')
         headers = response.request.headers
         headers["referer"] = response.url
-        # for url in response.xpath(
-        #         '//ul[contains(@class, "list-directory")]/descendant::a/@href'). \
-        #         extract():
-        #     url = self.domain + "/" + url
-        #     yield Request(url, headers=headers, callback=self.parse_candidate_overview, dont_filter=True)
-        #     break
-        urls = response.xpath('//ul[contains(@class, "list-directory")]/descendant::a/@href').extract()
-        url0 = self.domain + "/" + urls[1]
-        print url0
-        yield Request(url0, headers=headers, callback=self.parse_candidate_overview, dont_filter=True)
+        for url in response.xpath(
+                '//ul[contains(@class, "list-directory")]/descendant::a/@href'). \
+                extract():
+            url = self.domain + "/" + url
+            yield Request(url, headers=headers, callback=self.parse_candidate_overview, dont_filter=True)
+             #break
+        #urls = response.xpath('//ul[contains(@class, "list-directory")]/descendant::a/@href').extract()
+        #url0 = self.domain + "/" + urls[1]
+        #print url0
+        #yield Request(url0, headers=headers, callback=self.parse_candidate_overview, dont_filter=True)
 
     def parse_candidate_overview(self, response):
         if response.status == 429:

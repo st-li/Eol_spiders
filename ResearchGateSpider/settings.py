@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'ResearchGateSpider.spiders'
 #USER_AGENT = 'ResearchGateSpider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -108,11 +108,11 @@ ignore_codes.remove(301)
 ignore_codes.remove(302)
 HTTPCACHE_IGNORE_HTTP_CODES = ignore_codes
 
-HTTPCACHE_STORAGE='eol_spider.httpcache.MongoCacheStorage'
+HTTPCACHE_STORAGE='ResearchGateSpider.httpcache.MongoCacheStorage'
 HTTPCACHE_MONGO_HOST='127.0.0.1'
 HTTPCACHE_MONGO_PORT=27017
 HTTPCACHE_MONGO_DATABASE="eol_spider"
-
+HTTPCACHE_MONGO_COLLECTION="ResearchGateSpider"
 
 HTTPERROR_ALLOWED_CODES = [301,302,200,429]
 #HTTPCACHE_ENABLED = True

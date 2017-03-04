@@ -73,13 +73,14 @@ class MongoCacheStorage(object):
         self.mongo_user = settings["HTTPCACHE_MONGO_USER"] if "HTTPCACHE_MONGO_USER" in settings else None
         self.mongo_pwd = settings["HTTPCACHE_MONGO_PWD"] if "HTTPCACHE_MONGO_PWD" in settings else None
         self.mongo_mechanism = settings["HTTPCACHE_MONGO_MECHANISM"] if "HTTPCACHE_MONGO_MECHANISM" in settings else None
+        self.collection = settings['HTTPCACHE_MONGO_COLLECTION']        
 
     def open_spider(self, spider):
         self.conn = pymongo.MongoClient(self.mongo_host, self.mongo_port)
         self.db = self.conn[self.mongo_db]
         if self.mongo_user and self.mongo_pwd and self.mongo_mechanism:
             self.db.authenticate(name=self.mongo_user, password=self.mongo_pwd, mechanism=self.mongo_mechanism)
-        self.collection = self.db[spider.name]
+        self.collection = self.db[self.collection]
 
     def close_spider(self, spider):
         self.conn.close()
